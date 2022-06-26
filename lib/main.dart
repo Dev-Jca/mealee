@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealee/categories_screen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -6,15 +7,6 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: Mealee(),
+    home: CategoriesScreen(),
   ));
-}
-
-class Mealee extends StatelessWidget {
-  const Mealee({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
 }
