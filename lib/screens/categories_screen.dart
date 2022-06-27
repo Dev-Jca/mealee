@@ -3,6 +3,7 @@ import '../dummy_data.dart';
 import '../widgets/category_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  static const routeName = '/categories_screen';
   const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class CategoriesScreen extends StatelessWidget {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
         ),
-        children: DUMMY_CATEGORIES.map((catData) {
+        children: kDummyCategories.map((catData) {
           return CategoryItem(
             title: catData.title,
             color: catData.color,

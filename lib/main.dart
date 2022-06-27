@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealee/screens/meal_detail_screen.dart';
 import 'screens/category_meals_screen.dart';
 import 'screens/categories_screen.dart';
 
@@ -29,9 +30,16 @@ void main() {
             ),
       ),
       home: const CategoriesScreen(),
+      // initialRoute: CategoriesScreen.routeName,
       routes: {
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
+        MealDetailScreen.routeName: (context) => MealDetailScreen(),
       },
+      onGenerateRoute: (settings) {
+        print(settings.arguments);
+        return MaterialPageRoute(builder: (context) => CategoriesScreen());
+      },
+      onUnknownRoute: () {},
     ),
   );
 }
