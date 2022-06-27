@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mealee/screens/filters_screen.dart';
 import 'package:mealee/screens/meal_detail_screen.dart';
 import 'screens/category_meals_screen.dart';
 import 'screens/categories_screen.dart';
+import 'screens/tabs_screen.dart';
 
 void main() {
   runApp(
@@ -29,17 +31,22 @@ void main() {
                   fontFamily: 'RobotoCondensed'),
             ),
       ),
-      home: const CategoriesScreen(),
-      // initialRoute: CategoriesScreen.routeName,
+      initialRoute: '/',
       routes: {
+        '/': (context) => const TabsScreen(),
         CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
-        MealDetailScreen.routeName: (context) => MealDetailScreen(),
+        MealDetailScreen.routeName: (context) => const MealDetailScreen(),
+        FiltersScreen.routeName: ((context) => const FiltersScreen()),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
-        return MaterialPageRoute(builder: (context) => CategoriesScreen());
+        return MaterialPageRoute(
+            builder: (context) => const CategoriesScreen());
       },
-      onUnknownRoute: () {},
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+            builder: ((context) => const CategoriesScreen()));
+      },
     ),
   );
 }
