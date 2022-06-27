@@ -1,13 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:mealee/dummy_data.dart';
 import 'package:mealee/screens/filters_screen.dart';
 import 'package:mealee/screens/meal_detail_screen.dart';
+import 'models/meal.dart';
 import 'screens/category_meals_screen.dart';
 import 'screens/categories_screen.dart';
 import 'screens/tabs_screen.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(Mealee());
+}
+
+class Mealee extends StatefulWidget {
+  const Mealee({Key? key}) : super(key: key);
+
+  @override
+  State<Mealee> createState() => _MealeeState();
+}
+
+class _MealeeState extends State<Mealee> {
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  List<Meal> _availableMeals = kDummyMeals;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      _availableMeals = kDummyMeals.where((meal) {
+        if (_filters['gluten'] == true && !meal.isGlutenFree) {
+          return false;
+        }
+        if (_filters['lactose'] == true && !meal.isLactoseFree) {
+          return false;
+        }
+        if (_filters['vegan'] == true && !meal.isVegan) {
+          return false;
+        }
+        if (_filters['vegetarian'] == true && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -34,9 +78,13 @@ void main() {
       initialRoute: '/',
       routes: {
         '/': (context) => const TabsScreen(),
-        CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (context) =>
+            CategoryMealsScreen(availableMeals: _availableMeals),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
-        FiltersScreen.routeName: ((context) => const FiltersScreen()),
+        FiltersScreen.routeName: ((context) => FiltersScreen(
+              currentFilters: _filters,
+              saveFilters: _setFilters,
+            )),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);
@@ -47,6 +95,6 @@ void main() {
         return MaterialPageRoute(
             builder: ((context) => const CategoriesScreen()));
       },
-    ),
-  );
+    );
+  }
 }
